@@ -32,8 +32,9 @@ var site = {
 var page = {
     'title': document.title,
     'url': location.pathname,
-    'desc': document.querySelector('meta[name="description"]').content
 }
+
+page.desc = document.querySelector('meta[name="description"]') ? document.querySelector('meta[name="description"]').content : '';
 
 var disqus_loaded = false;
 window.disqus_config = function() {
@@ -465,7 +466,7 @@ Comment.prototype = {
     getlist: function(){
         document.querySelector('.disqus').style.display = 'none';
         document.querySelector('.comment').style.display = 'block';
-        if(!this.count || !!comment.offsetTop){
+        if(!this.count || !!this.offsetTop){
             var xhrListPosts = new XMLHttpRequest();
             xhrListPosts.open('GET', site.apipath + '/getcomments.php?link=' + encodeURIComponent(page.url) + '&cursor=' + this.next, true);
             xhrListPosts.send();
